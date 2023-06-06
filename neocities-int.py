@@ -1,10 +1,11 @@
-# dotmaster, 2023
+# whitc3, 2023
 
+import json
 import neocities
 import pytermgui as ptg
-import json
 import sys
 import os
+
 
 isAuth = False
 
@@ -65,7 +66,7 @@ def buttonPing(manager: ptg.WindowManager):
         # one less loose end
         exitMacro(False, manager, pingPrompt)
 
-        pingResponse = ptg.Window(ptg.Label(f"[italic surface+1]pinging [surface+2]{sitePing}[surface+1]...[/]"))
+        pingResponse = ptg.Window(ptg.Label(f"[italic surface+1]pinging [surface+2]{sitePing}[surface+1]...[/]"), box="SINGLE")
         windowAddMacro(pingResponse, manager, 3, "ping result")
 
         # we have a site? cool
@@ -87,7 +88,8 @@ def buttonPing(manager: ptg.WindowManager):
                     "",
                     ptg.Label('[italic surface+1]created[/]'), ptg.Label(str(siteInfo["created_at"])),
                     "",
-                    ptg.Label('[italic surface+1]last updated[/]'), ptg.Label(str(siteInfo["last_updated"]))
+                    ptg.Label('[italic surface+1]last updated[/]'), ptg.Label(str(siteInfo["last_updated"])),
+                    box="SINGLE"
                 )
 
         # we don't have a site? fallback
@@ -99,6 +101,7 @@ def buttonPing(manager: ptg.WindowManager):
             ptg.Label(f"[italic error]raised error code {ire.status_code}[/]"),
             # HACK: we can do this better! i just don't know how, but it works anyway
             ptg.Label(f"[italic error-2]{json.loads(ire.reason)['message']}[/]"), # type: ignore
+            box="SINGLE"
         )
 
         windowAddMacro(pingResponse, manager, 3, "ping result")
@@ -132,8 +135,8 @@ with ptg.WindowManager() as manager:
     # drawing the initial layout
     if isAuth == False:
         index = ptg.Window(
-                        "[bold accent]dotcities terminal interface[/]",
-                        "[surface+1]dotmaster, 2023[/]",
+                        "[bold accent]neocities terminal interface[/]",
+                        "[surface+1]whitc3, 2023[/]",
                         "",
                         ptg.KeyboardButton("auth", index=0, bound="a", onclick=lambda *_:buttonAuth(manager)), 
                         "[italic surface+1]Authenticates with Neocities [/ italic error]! NOT IMPLEMENTED ![/]",
@@ -147,8 +150,8 @@ with ptg.WindowManager() as manager:
                     )
     else:
         index = ptg.Window(
-                        "[bold accent]dotcities terminal interface[/]",
-                        "[surface+1]dotmaster, 2023[/]",
+                        "[bold accent]neocities terminal interface[/]",
+                        "[surface+1]whitc3, 2023[/]",
                         "",
                         ptg.KeyboardButton("auth", index=0, bound="a", onclick=lambda *_:buttonAuth(manager)), 
                         "[surface+1 italic]Authenticates with Neocities[/]",
@@ -170,4 +173,3 @@ with ptg.WindowManager() as manager:
     manager.add(index, animate=False)
     manager.layout.assign(index, index=2)
     manager.layout.assign(ptg.Label('dotcities'), index=0)
-    index.set_title("index")
