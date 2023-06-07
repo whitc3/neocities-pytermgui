@@ -19,7 +19,7 @@ def exitMacro(isGlobal: bool=True, manager: ptg.WindowManager=None, window: ptg.
     if manager is None or window is None:
         isGlobal = True
     if isGlobal == True:
-        exit()
+        sys.exit()
     else:
         manager.remove(window, animate=False)
 
